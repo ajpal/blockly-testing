@@ -8,15 +8,50 @@
     <script src="./node_modules/blockly/javascript_compressed.js"></script>
   </head>
   <style type="text/css">
+    body {
+      background: lavender;
+    }
+    #visualization {
+      display: inline-block;
+    }
     #blockly {
+      display: inline-block;
       width: 800px;
-      height: 800px;
+      height: 400px;
+    }
+    #resetButton {
+      display: none;
+    }
+    #runButton {
+      background-color: #dd4b39;
+      border: 1px solid #dd4b39;
+      margin: 5px;
+      padding: 10px;
+      border-radius: 4px;
+      color: #ffffff;
+      font-size: large;
+      width: 100px;
+    }
+    #resetButton {
+      background-color: #7c90a0;
+      border: 1px solid #7c90a0;
+      margin: 5px;
+      padding: 10px;
+      border-radius: 4px;
+      color: #ffffff;
+      font-size: large;
+      width: 100px;
     }
   </style>
   <body>
     <h1>TEST</h1>
-    <div id="visualization"></div>
-    <div id="blockly"></div>
+
+    <div>
+      <div id="visualization">
+        <canvas id="display" width="400" height="400"></canvas>
+      </div>
+      <div id="blockly"></div>
+    </div>
     <button id="runButton">Run</button>
     <button id="resetButton">Reset</button>
 

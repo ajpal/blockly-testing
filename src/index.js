@@ -1,6 +1,9 @@
 import "./blocks";
+import Turtle from "./turtle";
 
-const workspace = Blockly.inject("blockly", {
+Blockly.inject("blockly", {
   toolbox: document.getElementById("toolbox"),
   media: "./node_modules/blockly/media/",
 });
+const turtle = new Turtle();
+turtle.init();
