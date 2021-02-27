@@ -1,0 +1,25 @@
+{
+  "name": "dsl-hw5",
+  "version": "0.0.1",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "build": "webpack -p",
+    "start": "webpack-dev-server --mode development",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://anjali-pal@bitbucket.org/anjali-pal/hw5.git"
+  },
+  "author": "Anjali Pal",
+  "license": "SEE LICENSE IN LICENSE",
+  "dependencies": {
+    "blockly": "4.20201217.0"
+  },
+  "devDependencies": {
+    "webpack": "^4.28.4",
+    "webpack-cli": "^3.2.1",
+    "webpack-dev-server": "^3.1.14"
+  }
+}
