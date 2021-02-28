@@ -26,14 +26,7 @@ Blockly.JavaScript["turtle_move"] = function (block) {
       "VALUE",
       Blockly.JavaScript.ORDER_COMMA
     ) || "0";
-  return (
-    block.getFieldValue("DIR") +
-    "(" +
-    value +
-    ", 'block_id_" +
-    block.id +
-    "');\n"
-  );
+  return `${block.getFieldValue("DIR")}(${value});\n`;
 };
 
 Blockly.Blocks["turtle_turn"] = {
@@ -64,14 +57,7 @@ Blockly.JavaScript["turtle_turn"] = function (block) {
       "VALUE",
       Blockly.JavaScript.ORDER_COMMA
     ) || "0";
-  return (
-    block.getFieldValue("DIR") +
-    "(" +
-    value +
-    ", 'block_id_" +
-    block.id +
-    "');\n"
-  );
+  return `${block.getFieldValue("DIR")}(${value});\n`;
 };
 
 Blockly.Blocks["turtle_width"] = {
@@ -97,7 +83,7 @@ Blockly.JavaScript["turtle_width"] = function (block) {
       "WIDTH",
       Blockly.JavaScript.ORDER_COMMA
     ) || "1";
-  return "penWidth(" + width + ", 'block_id_" + block.id + "');\n";
+  return `penWidth(${width});\n`;
 };
 
 Blockly.Blocks["turtle_pen"] = {
@@ -127,7 +113,7 @@ Blockly.Blocks["turtle_pen"] = {
 
 Blockly.JavaScript["turtle_pen"] = function (block) {
   // Generate JavaScript for pen up/down.
-  return block.getFieldValue("PEN") + "('block_id_" + block.id + "');\n";
+  return `${block.getFieldValue("PEN")}();\n`;
 };
 
 Blockly.Blocks["turtle_visibility"] = {
@@ -157,7 +143,7 @@ Blockly.Blocks["turtle_visibility"] = {
 
 Blockly.JavaScript["turtle_visibility"] = function (block) {
   // Generate JavaScript for changing turtle visibility.
-  return block.getFieldValue("VISIBILITY") + "('block_id_" + block.id + "');\n";
+  return `${block.getFieldValue("VISIBILITY")}();\n`;
 };
 
 Blockly.Blocks["turtle_colour"] = {
@@ -183,5 +169,5 @@ Blockly.JavaScript["turtle_colour"] = function (block) {
       "COLOUR",
       Blockly.JavaScript.ORDER_COMMA
     ) || "'#000000'";
-  return "penColour(" + colour + ", 'block_id_" + block.id + "');\n";
+  return `penColour(${colour});\n`;
 };

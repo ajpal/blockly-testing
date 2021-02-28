@@ -8,6 +8,7 @@ export default class Turtle {
 
     this.visualization = document.getElementById("visualization");
     this.ctxDisplay = document.getElementById("display").getContext("2d");
+    this.ctxScratch = document.getElementById("scratch").getContext("2d");
 
     Blockly.JavaScript.addReservedWords(
       "moveForward,moveBackward," +
@@ -23,9 +24,15 @@ export default class Turtle {
   reset() {
     this.x = this.HEIGHT / 2;
     this.y = this.WIDTH / 2;
-    this.heading = 0;
+    this.angleDegrees = 0;
     this.isPenDown = true;
     this.visible = true;
+
+    this.ctxScratch.canvas.width = this.ctxScratch.canvas.width;
+    this.ctxScratch.strokeStyle = "#ffffff";
+    this.ctxScratch.fillStyle = "#ffffff";
+    this.ctxScratch.lineWidth = 5;
+    this.ctxScratch.lineCap = "round";
 
     this.display();
   }
@@ -40,6 +47,10 @@ export default class Turtle {
     );
     this.ctxDisplay.fillStyle = "#000000";
     this.ctxDisplay.fill();
+
+    // Draw the user layer.
+    this.ctxDisplay.globalCompositeOperation = "source-over";
+    this.ctxDisplay.drawImage(this.ctxScratch.canvas, 0, 0);
 
     // Draw the turtle.
     if (this.visible) {
@@ -57,7 +68,7 @@ export default class Turtle {
       var HEAD_TIP = 10;
       var ARROW_TIP = 4;
       var BEND = 6;
-      var radians = Blockly.utils.math.toRadians(this.heading);
+      var radians = Blockly.utils.math.toRadians(this.angleDegrees);
       var tipX = this.x + (radius + HEAD_TIP) * Math.sin(radians);
       var tipY = this.y - (radius + HEAD_TIP) * Math.cos(radians);
       radians -= WIDTH;
@@ -108,5 +119,92 @@ export default class Turtle {
     this.reset();
     var code = Blockly.JavaScript.workspaceToCode(Blockly.mainWorkspace);
     console.log(code);
+    eval(code);
+  }
+
+  move(distance) {
+    if (distance) {
+      this.ctxScratch.beginPath();
+      this.ctxScratch.moveTo(this.x, this.y);
+      var radians = Blockly.utils.math.toRadians(this.angleDegrees);
+      this.x += distance * Math.sin(radians);
+      this.y -= distance * Math.cos(radians);
+      if (this.isPenDown) {
+        this.ctxScratch.lineTo(this.x, this.y);
+        this.ctxScratch.stroke();
+      }
+    }
+    this.display();
+  }
+
+  turn(angle) {
+    this.angleDegrees = utils.normalizeAngle(this.angleDegrees + angle);
+    this.display();
+  }
+
+  setPenDown(isPenDown) {
+    this.isPenDown = isPenDown;
+    this.display();
+  }
+
+  penWidth(width) {
+    this.ctxScratch.lineWidth = width;
+    this.display();
+  }
+
+  penColour(colour) {
+    this.ctxScratch.strokeStyle = colour;
+    this.ctxScratch.fillStyle = colour;
+    this.display();
+  }
+
+  setVisible(isVisible) {
+    this.isVisible = isVisible;
+    this.display();
   }
 }
+
+// Turtle API
+
+const turtle = new Turtle();
+turtle.init();
+
+var moveForward = function (distance) {
+  turtle.move(distance);
+};
+
+var moveBackward = function (distance, i) {
+  turtle.move(-distance);
+};
+
+var turnRight = function (angle) {
+  turtle.turn(angle);
+};
+
+var turnLeft = function (angle) {
+  turtle.turn(-angle);
+};
+
+var penUp = function () {
+  turtle.setPenDown(false);
+};
+
+var penDown = function () {
+  turtle.setPenDown(true);
+};
+
+var penWidth = function (width) {
+  turtle.penWidth(width);
+};
+
+var penColour = function (colour) {
+  turtle.penColour(colour);
+};
+
+var hideTurtle = function () {
+  turtle.setVisible(false);
+};
+
+var showTurtle = function () {
+  turtle.setVisible(true);
+};
