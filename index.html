@@ -66,7 +66,27 @@
       style="display: none;"
       xmlns="https://developers.google.com/blockly/xml"
     >
-      <category name="Turtle">
+      <category name="Testing DSL" categorystyle="colour_category">
+        <block type="mock"></block>
+        <block type="name_stack"></block>
+        <block type="invoke_stack"></block>
+        <block type="assertequal"></block>
+        <block type="test"></block>
+        <block type="turtle_start">
+          <field name="x">0</field>
+          <field name="y">0</field>
+        </block>
+        <block type="turtle_end">
+          <field name="x">0</field>
+          <field name="y">0</field>
+        </block>
+        <block type="turtle_through">
+          <field name="x">0</field>
+          <field name="y">0</field>
+        </block>
+        <block type="assertcalled"></block>
+      </category>
+      <category name="Turtle" categorystyle="text_category">
         <block type="turtle_move">
           <value name="VALUE">
             <shadow type="math_number">
@@ -91,7 +111,7 @@
         <block type="turtle_pen"></block>
         <block type="turtle_visibility"></block>
       </category>
-      <category name="Colour">
+      <category name="Colour" categorystyle="colour_category">
         <block type="turtle_colour">
           <value name="COLOUR">
             <shadow type="colour_picker"></shadow>
@@ -134,7 +154,7 @@
           </value>
         </block>
       </category>
-      <category name="Logic">
+      <category name="Logic" categorystyle="logic_category">
         <block type="controls_if"></block>
         <block type="logic_compare"></block>
         <block type="logic_operation"></block>
@@ -142,7 +162,7 @@
         <block type="logic_boolean"></block>
         <block type="logic_ternary"></block>
       </category>
-      <category name="Loops">
+      <category name="Loops" categorystyle="loop_category">
         <block type="controls_repeat_ext">
           <value name="TIMES">
             <shadow type="math_number">
@@ -170,7 +190,7 @@
         </block>
         <block type="controls_flow_statements"></block>
       </category>
-      <category name="Math">
+      <category name="Math" categorystyle="math_category">
         <block type="math_number"></block>
         <block type="math_arithmetic">
           <value name="A">
@@ -256,7 +276,110 @@
         </block>
         <block type="math_random_float"></block>
       </category>
-      <category name="Lists">
+      <category name="Text" categorystyle="text_category">
+        <block type="text"></block>
+        <block type="text_multiline"></block>
+        <block type="text_join"></block>
+        <block type="text_append">
+          <value name="TEXT">
+            <shadow type="text"></shadow>
+          </value>
+        </block>
+        <block type="text_length">
+          <value name="VALUE">
+            <shadow type="text">
+              <field name="TEXT">abc</field>
+            </shadow>
+          </value>
+        </block>
+        <block type="text_isEmpty">
+          <value name="VALUE">
+            <shadow type="text">
+              <field name="TEXT"></field>
+            </shadow>
+          </value>
+        </block>
+        <block type="text_indexOf">
+          <value name="VALUE">
+            <block type="variables_get">
+              <field name="VAR">text</field>
+            </block>
+          </value>
+          <value name="FIND">
+            <shadow type="text">
+              <field name="TEXT">abc</field>
+            </shadow>
+          </value>
+        </block>
+        <block type="text_charAt">
+          <value name="VALUE">
+            <block type="variables_get">
+              <field name="VAR">text</field>
+            </block>
+          </value>
+        </block>
+        <block type="text_getSubstring">
+          <value name="STRING">
+            <block type="variables_get">
+              <field name="VAR">text</field>
+            </block>
+          </value>
+        </block>
+        <block type="text_changeCase">
+          <value name="TEXT">
+            <shadow type="text">
+              <field name="TEXT">abc</field>
+            </shadow>
+          </value>
+        </block>
+        <block type="text_trim">
+          <value name="TEXT">
+            <shadow type="text">
+              <field name="TEXT">abc</field>
+            </shadow>
+          </value>
+        </block>
+        <block type="text_count">
+          <value name="SUB">
+            <shadow type="text"></shadow>
+          </value>
+          <value name="TEXT">
+            <shadow type="text"></shadow>
+          </value>
+        </block>
+        <block type="text_replace">
+          <value name="FROM">
+            <shadow type="text"></shadow>
+          </value>
+          <value name="TO">
+            <shadow type="text"></shadow>
+          </value>
+          <value name="TEXT">
+            <shadow type="text"></shadow>
+          </value>
+        </block>
+        <block type="text_reverse">
+          <value name="TEXT">
+            <shadow type="text"></shadow>
+          </value>
+        </block>
+        <label text="Input/Output:" web-class="ioLabel"></label>
+        <block type="text_print">
+          <value name="TEXT">
+            <shadow type="text">
+              <field name="TEXT">abc</field>
+            </shadow>
+          </value>
+        </block>
+        <block type="text_prompt_ext">
+          <value name="TEXT">
+            <shadow type="text">
+              <field name="TEXT">abc</field>
+            </shadow>
+          </value>
+        </block>
+      </category>
+      <category name="Lists" categorystyle="list_category">
         <block type="lists_create_with">
           <mutation items="0"></mutation>
         </block>
@@ -302,8 +425,110 @@
         <block type="lists_reverse"></block>
       </category>
       <sep></sep>
-      <category name="Variables" custom="VARIABLE"></category>
-      <category name="Functions" custom="PROCEDURE"></category>
+      <category
+        name="Variables"
+        custom="VARIABLE"
+        categorystyle="variable_category"
+      ></category>
+      <category
+        name="Functions"
+        custom="PROCEDURE"
+        categorystyle="procedure_category"
+      ></category>
+    </xml>
+    <xml id="startBlocks" style="display: none;">
+      <variables>
+        <variable id="oe$6J2n)$AVp)zkx*jQL">Count</variable>
+        <variable id=":/sG%vz*he]k0Nvf]L14">Expected</variable>
+      </variables>
+      <block type="name_stack" id="MX##`b#/sS*Bb?r6+~c~" x="36" y="38">
+        <value name="NAME">
+          <block type="text" id="^(*_[#}Jh=]r2:iH8kss">
+            <field name="TEXT">Example</field>
+          </block>
+        </value>
+        <next>
+          <block type="variables_set" id="HjKmk1yKH13RkiS}8ZsT">
+            <field name="VAR" id="oe$6J2n)$AVp)zkx*jQL">Count</field>
+            <value name="VALUE">
+              <block type="math_number" id="K_H{nw(p#u,tf5kboy@6">
+                <field name="NUM">1</field>
+              </block>
+            </value>
+            <next>
+              <block type="controls_whileUntil" id="3!{r@nT5eAKJ6?Q:1,*l">
+                <field name="MODE">WHILE</field>
+                <value name="BOOL">
+                  <block type="logic_compare" id="GxUU?GGAiCcm=@(HS{Lc">
+                    <field name="OP">LTE</field>
+                    <value name="A">
+                      <block type="variables_get" id="htBl]:@7.TiPO*R:n%Q_">
+                        <field name="VAR" id="oe$6J2n)$AVp)zkx*jQL"
+                          >Count</field
+                        >
+                      </block>
+                    </value>
+                    <value name="B">
+                      <block type="math_number" id="nQ|Of}3n?7?ok;Mu{uR*">
+                        <field name="NUM">3</field>
+                      </block>
+                    </value>
+                  </block>
+                </value>
+                <statement name="DO">
+                  <block type="math_change" id="srqyA?lfe+e,RLKZZf=o">
+                    <field name="VAR" id="oe$6J2n)$AVp)zkx*jQL">Count</field>
+                    <value name="DELTA">
+                      <shadow type="math_number" id="Y0qP29|@d(y^bio[.rU]">
+                        <field name="NUM">1</field>
+                      </shadow>
+                    </value>
+                  </block>
+                </statement>
+              </block>
+            </next>
+          </block>
+        </next>
+      </block>
+      <block type="test" id="Qw[NE;xC-j,_99Nr$+Pt" x="46" y="208">
+        <next>
+          <block type="variables_set" id="N]j)u8m-1+gVeMo293Az">
+            <field name="VAR" id=":/sG%vz*he]k0Nvf]L14">Expected</field>
+            <value name="VALUE">
+              <block type="math_number" id="O/P7z5J;_`U)ClgCQf+x">
+                <field name="NUM">4</field>
+              </block>
+            </value>
+            <next>
+              <block type="invoke_stack" id="2R?F#=@EaWq0Ze]vo7;#">
+                <value name="NAME">
+                  <block type="text" id="|mVGY/T^D0.Kiq^{1+*4">
+                    <field name="TEXT">Example</field>
+                  </block>
+                </value>
+                <next>
+                  <block type="assertequal" id=":!!]CHhFgUM8xu=tJ(I5">
+                    <value name="val11">
+                      <block type="variables_get" id="KevfFf_#s2Jiiw4UV782">
+                        <field name="VAR" id="oe$6J2n)$AVp)zkx*jQL"
+                          >Count</field
+                        >
+                      </block>
+                    </value>
+                    <value name="val2">
+                      <block type="variables_get" id="?S/n@^06H?p{WIlE//)m">
+                        <field name="VAR" id=":/sG%vz*he]k0Nvf]L14"
+                          >Expected</field
+                        >
+                      </block>
+                    </value>
+                  </block>
+                </next>
+              </block>
+            </next>
+          </block>
+        </next>
+      </block>
     </xml>
   </body>
   <script src="./main.js"></script>

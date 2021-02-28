@@ -171,3 +171,205 @@ Blockly.JavaScript["turtle_colour"] = function (block) {
     ) || "'#000000'";
   return `penColour(${colour});\n`;
 };
+
+Blockly.Blocks["mock"] = {
+  init: function () {
+    this.appendValueInput("func").setCheck(null).appendField("mock function");
+    this.appendValueInput("ret").setCheck(null).appendField("and return");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(20);
+    this.setTooltip("");
+    this.setHelpUrl("");
+  },
+};
+
+Blockly.JavaScript["mock"] = function (block) {
+  var func = Blockly.JavaScript.valueToCode(
+    block,
+    "func",
+    Blockly.JavaScript.ORDER_ATOMIC
+  );
+  var ret = Blockly.JavaScript.valueToCode(
+    block,
+    "ret",
+    Blockly.JavaScript.ORDER_ATOMIC
+  );
+  return `mock(${func}, ${ret});\n`;
+};
+
+Blockly.Blocks["name_stack"] = {
+  init: function () {
+    this.appendValueInput("NAME").setCheck("String").appendField("name");
+    this.setInputsInline(true);
+    this.setNextStatement(true, null);
+    this.setColour(20);
+    this.setTooltip("");
+    this.setHelpUrl("");
+  },
+};
+
+Blockly.JavaScript["name_stack"] = function (block) {
+  var name = Blockly.JavaScript.valueToCode(
+    block,
+    "NAME",
+    Blockly.JavaScript.ORDER_ATOMIC
+  );
+  return `name_stack(${name});\n`;
+};
+
+Blockly.Blocks["invoke_stack"] = {
+  init: function () {
+    this.appendValueInput("NAME").setCheck("String").appendField("call");
+    this.setInputsInline(true);
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(20);
+    this.setTooltip("");
+    this.setHelpUrl("");
+  },
+};
+
+Blockly.JavaScript["invoke_stack"] = function (block) {
+  var name = Blockly.JavaScript.valueToCode(
+    block,
+    "NAME",
+    Blockly.JavaScript.ORDER_ATOMIC
+  );
+  return `invoke_stack(${name});\n`;
+};
+
+Blockly.Blocks["test"] = {
+  init: function () {
+    this.appendDummyInput().appendField("Test");
+    this.setInputsInline(true);
+    this.setNextStatement(true, null);
+    this.setColour(20);
+    this.setTooltip("");
+    this.setHelpUrl("");
+  },
+};
+
+Blockly.JavaScript["test"] = function (block) {
+  return `// placeholder test;\n`;
+};
+
+Blockly.Blocks["turtle_start"] = {
+  init: function () {
+    this.appendDummyInput()
+      .appendField("Turtle starts at (")
+      .appendField(new Blockly.FieldNumber(0), "x")
+      .appendField(",")
+      .appendField(new Blockly.FieldNumber(0), "y")
+      .appendField(")");
+    this.setInputsInline(true);
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(20);
+    this.setTooltip("");
+    this.setHelpUrl("");
+  },
+};
+
+Blockly.JavaScript["turtle_start"] = function (block) {
+  var x = block.getFieldValue("x");
+  var y = block.getFieldValue("y");
+  return `assertTurtleStart(${x}, ${y});\n`;
+};
+
+Blockly.Blocks["turtle_end"] = {
+  init: function () {
+    this.appendDummyInput()
+      .appendField("Turtle ends at (")
+      .appendField(new Blockly.FieldNumber(0), "x")
+      .appendField(",")
+      .appendField(new Blockly.FieldNumber(0), "y")
+      .appendField(")");
+    this.setInputsInline(true);
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(20);
+    this.setTooltip("");
+    this.setHelpUrl("");
+  },
+};
+
+Blockly.JavaScript["turtle_end"] = function (block) {
+  var x = block.getFieldValue("x");
+  var y = block.getFieldValue("y");
+  return `assertTurtleEnd(${x}, ${y});\n`;
+};
+
+Blockly.Blocks["turtle_through"] = {
+  init: function () {
+    this.appendDummyInput()
+      .appendField("Turtle goes through (")
+      .appendField(new Blockly.FieldNumber(0), "x")
+      .appendField(",")
+      .appendField(new Blockly.FieldNumber(0), "y")
+      .appendField(")");
+    this.setInputsInline(true);
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(20);
+    this.setTooltip("");
+    this.setHelpUrl("");
+  },
+};
+
+Blockly.JavaScript["turtle_through"] = function (block) {
+  var x = block.getFieldValue("x");
+  var y = block.getFieldValue("y");
+  return `assertTurtleThrough(${x}, ${y});\n`;
+};
+
+Blockly.Blocks["assertequal"] = {
+  init: function () {
+    this.appendValueInput("val11").setCheck("String").appendField("assert");
+    this.appendValueInput("val2").setCheck("String").appendField("equals");
+    this.setInputsInline(true);
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(20);
+    this.setTooltip("");
+    this.setHelpUrl("");
+  },
+};
+
+Blockly.JavaScript["assertequal"] = function (block) {
+  var val1 = Blockly.JavaScript.valueToCode(
+    block,
+    "val11",
+    Blockly.JavaScript.ORDER_ATOMIC
+  );
+  var val2 = Blockly.JavaScript.valueToCode(
+    block,
+    "val2",
+    Blockly.JavaScript.ORDER_ATOMIC
+  );
+  return `assertEqual(${val1}, ${val2});\n`;
+};
+
+Blockly.Blocks["assertcalled"] = {
+  init: function () {
+    this.appendValueInput("funcName")
+      .setCheck("String")
+      .appendField("assert function");
+    this.appendDummyInput().appendField("was called");
+    this.setInputsInline(true);
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(20);
+    this.setTooltip("");
+    this.setHelpUrl("");
+  },
+};
+
+Blockly.JavaScript["assertcalled"] = function (block) {
+  var funcName = Blockly.JavaScript.valueToCode(
+    block,
+    "funcName",
+    Blockly.JavaScript.ORDER_ATOMIC
+  );
+  return `assertCalled(${funcName});\n`;
+};
