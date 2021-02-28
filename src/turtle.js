@@ -16,6 +16,8 @@ export default class Turtle {
         "hideTurtle,showTurtle"
     );
 
+    Blockly.JavaScript.addReservedWords("stacks,tests");
+
     utils.bindClick("runButton", this.runButtonClick.bind(this));
     utils.bindClick("resetButton", this.resetButtonClick.bind(this));
     this.reset();
@@ -117,7 +119,9 @@ export default class Turtle {
 
   execute() {
     this.reset();
-    var code = Blockly.JavaScript.workspaceToCode(Blockly.mainWorkspace);
+    var code = "var stacks = {};\n";
+    code += "var tests = [];\n";
+    code += Blockly.JavaScript.workspaceToCode(Blockly.mainWorkspace);
     console.log(code);
     eval(code);
   }
@@ -207,4 +211,13 @@ var hideTurtle = function () {
 
 var showTurtle = function () {
   turtle.setVisible(true);
+};
+
+// DSL API
+var assertEqual = function (val1, val2) {
+  if (val1 == val2) {
+    console.log("pass");
+  } else {
+    console.warn(`expected ${val1} to equal ${val2}`);
+  }
 };

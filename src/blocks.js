@@ -215,7 +215,9 @@ Blockly.JavaScript["name_stack"] = function (block) {
     "NAME",
     Blockly.JavaScript.ORDER_ATOMIC
   );
-  return `name_stack(${name});\n`;
+  return `stacks[${name}] = function() {\n${Blockly.JavaScript.blockToCode(
+    block.childBlocks_[1]
+  )}\n}\n`;
 };
 
 Blockly.Blocks["invoke_stack"] = {
@@ -236,7 +238,9 @@ Blockly.JavaScript["invoke_stack"] = function (block) {
     "NAME",
     Blockly.JavaScript.ORDER_ATOMIC
   );
-  return `invoke_stack(${name});\n`;
+  return `if (typeof stacks[${name}] == "function") {
+    stacks[${name}]();
+  }\n`;
 };
 
 Blockly.Blocks["test"] = {
@@ -251,7 +255,9 @@ Blockly.Blocks["test"] = {
 };
 
 Blockly.JavaScript["test"] = function (block) {
-  return `// placeholder test;\n`;
+  return `tests.push(function() {\n${Blockly.JavaScript.blockToCode(
+    block.childBlocks_[0]
+  )}}\n);\n`;
 };
 
 Blockly.Blocks["turtle_start"] = {
