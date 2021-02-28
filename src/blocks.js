@@ -331,8 +331,8 @@ Blockly.JavaScript["turtle_through"] = function (block) {
 
 Blockly.Blocks["assertequal"] = {
   init: function () {
-    this.appendValueInput("val11").setCheck("String").appendField("assert");
-    this.appendValueInput("val2").setCheck("String").appendField("equals");
+    this.appendValueInput("val11").appendField("assert");
+    this.appendValueInput("val2").appendField("equals");
     this.setInputsInline(true);
     this.setPreviousStatement(true, null);
     this.setNextStatement(true, null);
