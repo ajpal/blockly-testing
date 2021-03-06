@@ -379,3 +379,65 @@ Blockly.JavaScript["assertcalled"] = function (block) {
   );
   return `assertCalled(${funcName});\n`;
 };
+
+const blockToCode = Blockly.Generator.prototype.blockToCode.bind(
+  Blockly.JavaScript
+);
+// Override so that test blocks are not part of the top-level code.
+Blockly.Generator.prototype.blockToCode = function (
+  block,
+  opt_thisOnly,
+  forTest
+) {
+  if (block && block.type === "test") {
+    opt_thisOnly = true;
+  }
+  if (forTest && block && block.type === "name_stack") {
+    opt_thisOnly = true;
+  }
+  return blockToCode(block, opt_thisOnly);
+};
+
+// Override so that when running tests, we only generate the code needed for the test
+Blockly.Generator.prototype.workspaceToCode = function (workspace, forTest) {
+  if (!workspace) {
+    // Backwards compatibility from before there could be multiple workspaces.
+    console.warn("No workspace specified in workspaceToCode call.  Guessing.");
+    workspace = Blockly.getMainWorkspace();
+  }
+  var code = [];
+  this.init(workspace);
+  var blocks = workspace.getTopBlocks(true);
+  for (var i = 0, block; (block = blocks[i]); i++) {
+    if (forTest && !(block.type === "name_stack" || block.type === "test")) {
+      continue;
+    }
+    var line = this.blockToCode(block, false /* opt_thisOnly */, forTest);
+    if (Array.isArray(line)) {
+      // Value blocks return tuples of code and operator order.
+      // Top-level blocks don't care about operator order.
+      line = line[0];
+    }
+    if (line) {
+      if (block.outputConnection) {
+        // This block is a naked value.  Ask the language's code generator if
+        // it wants to append a semicolon, or something.
+        line = this.scrubNakedValue(line);
+        if (this.STATEMENT_PREFIX && !block.suppressPrefixSuffix) {
+          line = this.injectId(this.STATEMENT_PREFIX, block) + line;
+        }
+        if (this.STATEMENT_SUFFIX && !block.suppressPrefixSuffix) {
+          line = line + this.injectId(this.STATEMENT_SUFFIX, block);
+        }
+      }
+      code.push(line);
+    }
+  }
+  code = code.join("\n"); // Blank line between each section.
+  code = this.finish(code);
+  // Final scrubbing of whitespace.
+  code = code.replace(/^\s+\n/, "");
+  code = code.replace(/\n\s+$/, "\n");
+  code = code.replace(/[ \t]+\n/g, "\n");
+  return code;
+};

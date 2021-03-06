@@ -6,6 +6,7 @@
     <script src="./node_modules/blockly/blocks_compressed.js"></script>
     <script src="https://unpkg.com/blockly/msg/en.js"></script>
     <script src="./node_modules/blockly/javascript_compressed.js"></script>
+    <script src="node_modules/jquery/dist/jquery.js"></script>
   </head>
   <style type="text/css">
     body {
@@ -19,10 +20,7 @@
       width: 800px;
       height: 400px;
     }
-    #resetButton {
-      display: none;
-    }
-    #runButton {
+    #runProgramButton {
       background-color: #dd4b39;
       border: 1px solid #dd4b39;
       margin: 5px;
@@ -30,9 +28,10 @@
       border-radius: 4px;
       color: #ffffff;
       font-size: large;
-      width: 100px;
+      width: 150px;
     }
-    #resetButton {
+    #resetProgramButton {
+      display: none;
       background-color: #7c90a0;
       border: 1px solid #7c90a0;
       margin: 5px;
@@ -40,7 +39,28 @@
       border-radius: 4px;
       color: #ffffff;
       font-size: large;
-      width: 100px;
+      width: 150px;
+    }
+    #runTestsButton {
+      background-color: #dd4b39;
+      border: 1px solid #dd4b39;
+      margin: 5px;
+      padding: 10px;
+      border-radius: 4px;
+      color: #ffffff;
+      font-size: large;
+      width: 150px;
+    }
+    #resetTestsButton {
+      display: none;
+      background-color: #7c90a0;
+      border: 1px solid #7c90a0;
+      margin: 5px;
+      padding: 10px;
+      border-radius: 4px;
+      color: #ffffff;
+      font-size: large;
+      width: 150px;
     }
   </style>
   <body>
@@ -58,8 +78,16 @@
       </div>
       <div id="blockly"></div>
     </div>
-    <button id="runButton">Run</button>
-    <button id="resetButton">Reset</button>
+    <button id="runProgramButton">Run Program</button>
+    <button id="resetProgramButton">Reset Program</button>
+
+    <button id="runTestsButton">Run Tests</button>
+    <button id="resetTestsButton">Reset Tests</button>
+
+    <div id="testResultsDiv">
+      <h1>Test Results</h1>
+      <ul id="testResults"></ul>
+    </div>
 
     <xml
       id="toolbox"

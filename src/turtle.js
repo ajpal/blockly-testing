@@ -18,12 +18,19 @@ export default class Turtle {
 
     Blockly.JavaScript.addReservedWords("stacks,tests");
 
-    utils.bindClick("runButton", this.runButtonClick.bind(this));
-    utils.bindClick("resetButton", this.resetButtonClick.bind(this));
+    utils.bindClick("runProgramButton", this.runProgramButtonClick.bind(this));
+    utils.bindClick(
+      "resetProgramButton",
+      this.resetProgramButtonClick.bind(this)
+    );
+
+    utils.bindClick("runTestsButton", this.runTestsButtonClick.bind(this));
+    utils.bindClick("resetTestsButton", this.resetTestsButtonClick.bind(this));
     this.reset();
   }
 
   reset() {
+    testResults = [];
     this.x = this.HEIGHT / 2;
     this.y = this.WIDTH / 2;
     this.angleDegrees = 0;
@@ -101,27 +108,56 @@ export default class Turtle {
     }
   }
 
-  runButtonClick(e) {
-    var runButton = document.getElementById("runButton");
-    var resetButton = document.getElementById("resetButton");
+  runProgramButtonClick(e) {
+    var runButton = document.getElementById("runProgramButton");
+    var resetButton = document.getElementById("resetProgramButton");
     runButton.style.display = "none";
     resetButton.style.display = "inline";
-    this.execute();
+    this.executeProgram();
   }
 
-  resetButtonClick(e) {
-    var runButton = document.getElementById("runButton");
-    var resetButton = document.getElementById("resetButton");
+  resetProgramButtonClick(e) {
+    var runButton = document.getElementById("runProgramButton");
+    var resetButton = document.getElementById("resetProgramButton");
     resetButton.style.display = "none";
     runButton.style.display = "inline";
     this.reset();
   }
 
-  execute() {
+  runTestsButtonClick(e) {
+    var runButton = document.getElementById("runTestsButton");
+    var resetButton = document.getElementById("resetTestsButton");
+    runButton.style.display = "none";
+    resetButton.style.display = "inline";
+    this.executeTests();
+  }
+
+  resetTestsButtonClick(e) {
+    var runButton = document.getElementById("runTestsButton");
+    var resetButton = document.getElementById("resetTestsButton");
+    resetButton.style.display = "none";
+    runButton.style.display = "inline";
+    this.reset();
+    $("#testResults").empty();
+  }
+
+  executeProgram() {
     this.reset();
     var code = "var stacks = {};\n";
     code += "var tests = [];\n";
     code += Blockly.JavaScript.workspaceToCode(Blockly.mainWorkspace);
+    console.log(code);
+    eval(code);
+  }
+
+  executeTests() {
+    var code = "var stacks = {};\n";
+    code += "var tests = [];\n";
+    code += Blockly.JavaScript.workspaceToCode(
+      Blockly.mainWorkspace,
+      true /* forTest */
+    );
+    code += "showTestResults(tests);\n";
     console.log(code);
     eval(code);
   }
@@ -170,6 +206,15 @@ export default class Turtle {
 
 // Turtle API
 
+var testResults = [];
+var showTestResults = function (tests) {
+  tests.forEach((testFn) => testFn());
+  console.log(testResults);
+  testResults.forEach((result) =>
+    $("#testResults").append(`<li>${result}</li>`)
+  );
+};
+
 const turtle = new Turtle();
 turtle.init();
 
@@ -216,8 +261,8 @@ var showTurtle = function () {
 // DSL API
 var assertEqual = function (val1, val2) {
   if (val1 == val2) {
-    console.log("pass");
+    testResults.push(`pass: ${val1} == ${val2}`);
   } else {
-    console.warn(`expected ${val1} to equal ${val2}`);
+    testResults.push(`fail: expected ${val1} to equal ${val2}`);
   }
 };
