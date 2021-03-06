@@ -5,6 +5,7 @@ export default class Turtle {
     this.HEIGHT = 400;
     this.WIDTH = 400;
     this.visible = true;
+    this.turtleLog = [];
 
     this.visualization = document.getElementById("visualization");
     this.ctxDisplay = document.getElementById("display").getContext("2d");
@@ -30,9 +31,9 @@ export default class Turtle {
   }
 
   reset() {
-    testResults = [];
     this.x = this.HEIGHT / 2;
     this.y = this.WIDTH / 2;
+    this.turtleLog = [new Blockly.utils.Coordinate(this.x, this.y)];
     this.angleDegrees = 0;
     this.isPenDown = true;
     this.visible = true;
@@ -139,6 +140,7 @@ export default class Turtle {
     runButton.style.display = "inline";
     this.reset();
     $("#testResults").empty();
+    testResults = [];
   }
 
   executeProgram() {
@@ -169,6 +171,8 @@ export default class Turtle {
       var radians = Blockly.utils.math.toRadians(this.angleDegrees);
       this.x += distance * Math.sin(radians);
       this.y -= distance * Math.cos(radians);
+      this.turtleLog.push(new Blockly.utils.Coordinate(this.x, this.y));
+      console.log(this.turtleLog);
       if (this.isPenDown) {
         this.ctxScratch.lineTo(this.x, this.y);
         this.ctxScratch.stroke();
@@ -205,16 +209,6 @@ export default class Turtle {
 }
 
 // Turtle API
-
-var testResults = [];
-var showTestResults = function (tests) {
-  tests.forEach((testFn) => testFn());
-  console.log(testResults);
-  testResults.forEach((result) =>
-    $("#testResults").append(`<li>${result}</li>`)
-  );
-};
-
 const turtle = new Turtle();
 turtle.init();
 
@@ -265,4 +259,68 @@ var assertEqual = function (val1, val2) {
   } else {
     testResults.push(`fail: expected ${val1} to equal ${val2}`);
   }
+};
+
+var testResults = [];
+var showTestResults = function (tests) {
+  tests.forEach((testFn) => {
+    turtle.reset();
+    testFn();
+  });
+  console.log(testResults);
+  testResults.forEach((result) =>
+    $("#testResults").append(`<li>${result}</li>`)
+  );
+};
+
+var assertTurtleStart = function (x, y) {
+  const actualStart = turtle.turtleLog[0];
+  if (
+    Blockly.utils.Coordinate.equals(
+      new Blockly.utils.Coordinate(x, y),
+      actualStart
+    )
+  ) {
+    testResults.push(`pass: turtle starts at (${x}, ${y})`);
+  } else {
+    testResults.push(
+      `fail: turtle started at (${actualStart.x}, ${actualStart.y}), not at (${x}, ${y})`
+    );
+  }
+};
+
+var assertTurtleEnd = function (x, y) {
+  const actualEnd = turtle.turtleLog[turtle.turtleLog.length - 1];
+  if (
+    Blockly.utils.Coordinate.equals(
+      new Blockly.utils.Coordinate(x, y),
+      actualEnd
+    )
+  ) {
+    testResults.push(`pass: turtle ended at (${x}, ${y})`);
+  } else {
+    testResults.push(
+      `fail: turtle ended at (${actualEnd.x}, ${actualEnd.y}), not at (${x}, ${y})`
+    );
+  }
+};
+
+var assertTurtleThrough = function (x, y) {
+  var expected = new Blockly.utils.Coordinate(x, y);
+  var current = turtle.turtleLog[0];
+  var result = `fail: turtle did not go through (${x}, ${y})`;
+  for (var i = 0; i < turtle.turtleLog.length; i++) {
+    var d1 = Blockly.utils.Coordinate.distance(current, turtle.turtleLog[i]);
+    var d2 =
+      Blockly.utils.Coordinate.distance(current, expected) +
+      Blockly.utils.Coordinate.distance(expected, turtle.turtleLog[i]);
+    // for three points a, b, c: If distance a->b + b->c == distance a->c, then b is along the line defined by a and c
+    // Add a small buffer region so that you can mostly use integer values
+    if (Math.abs(d1 - d2) < 0.1) {
+      result = `pass: turtle went through (${x}, ${y})`;
+      break;
+    }
+    current = turtle.turtleLog[i];
+  }
+  testResults.push(result);
 };
