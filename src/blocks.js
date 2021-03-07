@@ -221,6 +221,22 @@ Blockly.JavaScript["procedures_callreturn"] = function (block) {
   return [modifiedCode, Blockly.JavaScript.ORDER_FUNCTION_CALL];
 };
 
+// Override to check if we should call the mock instead of the real function
+Blockly.JavaScript["text_print"] = function (block) {
+  // Print statement.
+  var msg =
+    Blockly.JavaScript.valueToCode(
+      block,
+      "TEXT",
+      Blockly.JavaScript.ORDER_NONE
+    ) || "''";
+  return (
+    "(mocks['window.alert'] ? mocks['window.alert']() : window.alert(" +
+    msg +
+    "));\n"
+  );
+};
+
 Blockly.Blocks["name_stack"] = {
   init: function () {
     this.appendValueInput("NAME").setCheck("String").appendField("name");
