@@ -172,6 +172,27 @@ Blockly.JavaScript["turtle_colour"] = function (block) {
   return `penColour(${colour});\n`;
 };
 
+Blockly.Blocks["spy"] = {
+  init: function () {
+    this.appendValueInput("func").setCheck(null).appendField("spy on function");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(20);
+    this.setTooltip("");
+    this.setHelpUrl("");
+  },
+};
+
+Blockly.JavaScript["spy"] = function (block) {
+  var func = Blockly.JavaScript.valueToCode(
+    block,
+    "func",
+    Blockly.JavaScript.ORDER_ATOMIC
+  );
+  var trimmedFuncName = func.substring(1, func.length - 1);
+  return `mocks[${func}] = function() {\ncalls[${func}] ||= 0;\ncalls[${func}]++;\nreturn ${trimmedFuncName}()};`;
+};
+
 Blockly.Blocks["mock"] = {
   init: function () {
     this.appendValueInput("func").setCheck(null).appendField("mock function");
