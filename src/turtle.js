@@ -155,6 +155,7 @@ export default class Turtle {
   executeTests() {
     var code = "var stacks = {};\n";
     code += "var tests = [];\n";
+    code += "var mocks = {};\n";
     code += Blockly.JavaScript.workspaceToCode(
       Blockly.mainWorkspace,
       true /* forTest */
@@ -323,4 +324,16 @@ var assertTurtleThrough = function (x, y) {
     current = turtle.turtleLog[i];
   }
   testResults.push(result);
+};
+
+var calls = {};
+var assertCalled = function (fnName, times) {
+  var actual = calls[fnName] || 0;
+  if (actual === times) {
+    testResults.push(`pass: "${fnName}" was called ${times} times.`);
+  } else {
+    testResults.push(
+      `fail: "${fnName}" was called ${actual} times, but was expected to be called ${times} times.`
+    );
+  }
 };

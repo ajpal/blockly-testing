@@ -195,7 +195,30 @@ Blockly.JavaScript["mock"] = function (block) {
     "ret",
     Blockly.JavaScript.ORDER_ATOMIC
   );
-  return `mock(${func}, ${ret});\n`;
+  return `mocks[${func}] = function() {\ncalls[${func}] ||= 0;\ncalls[${func}]++;\nreturn ${ret}\n};\n`;
+};
+
+// Override to check if we should call the mock instead of the real function
+Blockly.JavaScript["procedures_callreturn"] = function (block) {
+  // Call a procedure with a return value.
+  var funcName = Blockly.JavaScript.variableDB_.getName(
+    block.getFieldValue("NAME"),
+    Blockly.PROCEDURE_CATEGORY_NAME
+  );
+  var args = [];
+  var variables = block.getVars();
+  for (var i = 0; i < variables.length; i++) {
+    args[i] =
+      Blockly.JavaScript.valueToCode(
+        block,
+        "ARG" + i,
+        Blockly.JavaScript.ORDER_NONE
+      ) || "null";
+  }
+  var modifiedCode = `(mocks['${funcName}'] ? mocks['${funcName}'](${args.join(
+    ", "
+  )}) : ${funcName}(${args.join(", ")}))`;
+  return [modifiedCode, Blockly.JavaScript.ORDER_FUNCTION_CALL];
 };
 
 Blockly.Blocks["name_stack"] = {
@@ -255,7 +278,7 @@ Blockly.Blocks["test"] = {
 };
 
 Blockly.JavaScript["test"] = function (block) {
-  return `tests.push(function() {\n${Blockly.JavaScript.blockToCode(
+  return `tests.push(function() {\n//Scope mocks and calls to single test\nmocks={};calls={};\n${Blockly.JavaScript.blockToCode(
     block.childBlocks_[0]
   )}}\n);\n`;
 };
@@ -362,6 +385,8 @@ Blockly.Blocks["assertcalled"] = {
       .setCheck("String")
       .appendField("assert function");
     this.appendDummyInput().appendField("was called");
+    this.appendValueInput("times").setCheck("Number");
+    this.appendDummyInput().appendField("times");
     this.setInputsInline(true);
     this.setPreviousStatement(true, null);
     this.setNextStatement(true, null);
@@ -372,12 +397,19 @@ Blockly.Blocks["assertcalled"] = {
 };
 
 Blockly.JavaScript["assertcalled"] = function (block) {
-  var funcName = Blockly.JavaScript.valueToCode(
-    block,
-    "funcName",
-    Blockly.JavaScript.ORDER_ATOMIC
-  );
-  return `assertCalled(${funcName});\n`;
+  var funcName =
+    Blockly.JavaScript.valueToCode(
+      block,
+      "funcName",
+      Blockly.JavaScript.ORDER_ATOMIC
+    ) || '""';
+  var times =
+    Blockly.JavaScript.valueToCode(
+      block,
+      "times",
+      Blockly.JavaScript.ORDER_ATOMIC
+    ) || 0;
+  return `assertCalled(${funcName}, ${times});\n`;
 };
 
 const blockToCode = Blockly.Generator.prototype.blockToCode.bind(
@@ -405,11 +437,13 @@ Blockly.Generator.prototype.workspaceToCode = function (workspace, forTest) {
     console.warn("No workspace specified in workspaceToCode call.  Guessing.");
     workspace = Blockly.getMainWorkspace();
   }
+  var allowedForTest = ["procedures_defreturn", "name_stack", "test"];
   var code = [];
   this.init(workspace);
   var blocks = workspace.getTopBlocks(true);
   for (var i = 0, block; (block = blocks[i]); i++) {
-    if (forTest && !(block.type === "name_stack" || block.type === "test")) {
+    if (forTest && !allowedForTest.includes(block.type)) {
+      console.log(block.type);
       continue;
     }
     var line = this.blockToCode(block, false /* opt_thisOnly */, forTest);
