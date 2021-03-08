@@ -474,7 +474,12 @@ Blockly.Generator.prototype.workspaceToCode = function (workspace, forTest) {
     console.warn("No workspace specified in workspaceToCode call.  Guessing.");
     workspace = Blockly.getMainWorkspace();
   }
-  var allowedForTest = ["procedures_defreturn", "name_stack", "test"];
+  var allowedForTest = [
+    "procedures_defreturn",
+    "procedures_defnoreturn",
+    "name_stack",
+    "test",
+  ];
   var code = [];
   this.init(workspace);
   var blocks = workspace.getTopBlocks(true);

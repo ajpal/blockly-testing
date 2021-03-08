@@ -149,6 +149,7 @@ export default class Turtle {
     this.reset();
     var code = "var stacks = {};\n";
     code += "var tests = [];\n";
+    code += "var mocks = [];\n";
     code += Blockly.JavaScript.workspaceToCode(Blockly.mainWorkspace);
     console.log(code);
     eval(code);
