@@ -1,0 +1,53 @@
+body {
+  background: lavender;
+}
+#visualization {
+  display: inline-block;
+}
+#blockly {
+  display: inline-block;
+  width: 800px;
+  height: 400px;
+}
+#runProgramButton {
+  background-color: #dd4b39;
+  border: 1px solid #dd4b39;
+  margin: 5px;
+  padding: 10px;
+  border-radius: 4px;
+  color: #ffffff;
+  font-size: large;
+  width: 150px;
+}
+#resetProgramButton {
+  display: none;
+  background-color: #7c90a0;
+  border: 1px solid #7c90a0;
+  margin: 5px;
+  padding: 10px;
+  border-radius: 4px;
+  color: #ffffff;
+  font-size: large;
+  width: 150px;
+}
+#runTestsButton {
+  background-color: #dd4b39;
+  border: 1px solid #dd4b39;
+  margin: 5px;
+  padding: 10px;
+  border-radius: 4px;
+  color: #ffffff;
+  font-size: large;
+  width: 150px;
+}
+#resetTestsButton {
+  display: none;
+  background-color: #7c90a0;
+  border: 1px solid #7c90a0;
+  margin: 5px;
+  padding: 10px;
+  border-radius: 4px;
+  color: #ffffff;
+  font-size: large;
+  width: 150px;
+}
