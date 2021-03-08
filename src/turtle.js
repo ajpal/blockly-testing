@@ -33,7 +33,9 @@ export default class Turtle {
   reset() {
     this.x = this.HEIGHT / 2;
     this.y = this.WIDTH / 2;
-    this.turtleLog = [new Blockly.utils.Coordinate(this.x, this.y)];
+    this.turtleLog = [
+      new Blockly.utils.Coordinate(Math.round(this.x), Math.round(this.y)),
+    ];
     this.angleDegrees = 0;
     this.isPenDown = true;
     this.visible = true;
@@ -172,8 +174,9 @@ export default class Turtle {
       var radians = Blockly.utils.math.toRadians(this.angleDegrees);
       this.x += distance * Math.sin(radians);
       this.y -= distance * Math.cos(radians);
-      this.turtleLog.push(new Blockly.utils.Coordinate(this.x, this.y));
-      console.log(this.turtleLog);
+      this.turtleLog.push(
+        new Blockly.utils.Coordinate(Math.round(this.x), Math.round(this.y))
+      );
       if (this.isPenDown) {
         this.ctxScratch.lineTo(this.x, this.y);
         this.ctxScratch.stroke();
