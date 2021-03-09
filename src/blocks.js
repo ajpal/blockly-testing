@@ -190,7 +190,7 @@ Blockly.JavaScript["spy"] = function (block) {
     Blockly.JavaScript.ORDER_ATOMIC
   );
   var trimmedFuncName = func.substring(1, func.length - 1);
-  return `mocks[${func}] = function() {\ncalls[${func}] ||= 0;\ncalls[${func}]++;\nreturn ${trimmedFuncName}()};`;
+  return `mocks[${func}] = function(...args) {\ncalls[${func}] ||= 0;\ncalls[${func}]++;\nreturn ${trimmedFuncName}(...args)};`;
 };
 
 Blockly.Blocks["mock"] = {
@@ -256,6 +256,31 @@ Blockly.JavaScript["text_print"] = function (block) {
     msg +
     "));\n"
   );
+};
+
+Blockly.JavaScript["text_prompt_ext"] = function (block) {
+  // Prompt function.
+  if (block.getField("TEXT")) {
+    // Internal message.
+    var msg = Blockly.JavaScript.quote_(block.getFieldValue("TEXT"));
+  } else {
+    // External message.
+    var msg =
+      Blockly.JavaScript.valueToCode(
+        block,
+        "TEXT",
+        Blockly.JavaScript.ORDER_NONE
+      ) || "''";
+  }
+  var code = "window.prompt(" + msg + ")";
+  var toNumber = block.getFieldValue("TYPE") == "NUMBER";
+  if (toNumber) {
+    code = "Number(" + code + ")";
+  }
+  return [
+    `(mocks['window.prompt'] ? mocks['window.prompt'](${msg}) : ${code});\n`,
+    Blockly.JavaScript.ORDER_FUNCTION_CALL,
+  ];
 };
 
 Blockly.Blocks["name_stack"] = {
