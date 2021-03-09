@@ -510,7 +510,6 @@ Blockly.Generator.prototype.workspaceToCode = function (workspace, forTest) {
   var blocks = workspace.getTopBlocks(true);
   for (var i = 0, block; (block = blocks[i]); i++) {
     if (forTest && !allowedForTest.includes(block.type)) {
-      console.log(block.type);
       continue;
     }
     var line = this.blockToCode(block, false /* opt_thisOnly */, forTest);

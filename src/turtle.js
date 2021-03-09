@@ -151,7 +151,6 @@ export default class Turtle {
     code += "var tests = [];\n";
     code += "var mocks = [];\n";
     code += Blockly.JavaScript.workspaceToCode(Blockly.mainWorkspace);
-    console.log(code);
     eval(code);
   }
 
@@ -164,7 +163,6 @@ export default class Turtle {
       true /* forTest */
     );
     code += "showTestResults(tests);\n";
-    console.log(code);
     eval(code);
   }
 
