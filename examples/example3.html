@@ -413,7 +413,85 @@
     </xml>
     <xml id="startBlocks" style="display: none;"
       ><variables><variable>str</variable><variable>name</variable></variables
-      ><block type="name_stack" x="39" y="28"
+      ><block type="test" x="38" y="32"
+        ><next
+          ><block type="mock"
+            ><value name="func"
+              ><block type="text"
+                ><field name="TEXT">window.prompt</field></block
+              ></value
+            ><value name="ret"
+              ><block type="text"
+                ><field name="TEXT">anjali</field></block
+              ></value
+            ><next
+              ><block type="spy"
+                ><value name="func"
+                  ><block type="text"
+                    ><field name="TEXT">my_function</field></block
+                  ></value
+                ><next
+                  ><block type="mock"
+                    ><value name="func"
+                      ><block type="text"
+                        ><field name="TEXT">window.alert</field></block
+                      ></value
+                    ><next
+                      ><block type="invoke_stack"
+                        ><value name="NAME"
+                          ><block type="text"
+                            ><field name="TEXT">Stack 3</field></block
+                          ></value
+                        ><next
+                          ><block type="assertcalled"
+                            ><value name="funcName"
+                              ><block type="text"
+                                ><field name="TEXT">window.prompt</field></block
+                              ></value
+                            ><value name="times"
+                              ><block type="math_number"
+                                ><field name="NUM">1</field></block
+                              ></value
+                            ><next
+                              ><block type="assertcalled"
+                                ><value name="funcName"
+                                  ><block type="text"
+                                    ><field name="TEXT"
+                                      >my_function</field
+                                    ></block
+                                  ></value
+                                ><value name="times"
+                                  ><block type="math_number"
+                                    ><field name="NUM">1</field></block
+                                  ></value
+                                ><next
+                                  ><block type="assertcalled"
+                                    ><value name="funcName"
+                                      ><block type="text"
+                                        ><field name="TEXT"
+                                          >window.alert</field
+                                        ></block
+                                      ></value
+                                    ><value name="times"
+                                      ><block type="math_number"
+                                        ><field name="NUM">1</field></block
+                                      ></value
+                                    ></block
+                                  ></next
+                                ></block
+                              ></next
+                            ></block
+                          ></next
+                        ></block
+                      ></next
+                    ></block
+                  ></next
+                ></block
+              ></next
+            ></block
+          ></next
+        ></block
+      ><block type="name_stack" x="343" y="30"
         ><value name="NAME"
           ><block type="text"><field name="TEXT">Stack 3</field></block></value
         ><next
@@ -440,8 +518,8 @@
             ></block
           ></next
         ></block
-      ><block type="procedures_defnoreturn" x="39" y="159"
-        ><mutation><arg name="str" varid="3TzY~tS33)@QzcZ6!%+T"></arg></mutation
+      ><block type="procedures_defnoreturn" x="511" y="170"
+        ><mutation><arg name="str" varid="Tb(u}lSCNEGkt$xt^[l!"></arg></mutation
         ><field name="NAME">my_function</field
         ><comment pinned="false" h="80" w="160"
           >Describe this function...</comment
@@ -467,46 +545,12 @@
                   ></value
                 ><value name="ADD2"
                   ><block type="text"
-                    ><field name="TEXT">letters</field></block
+                    ><field name="TEXT"> letters</field></block
                   ></value
                 ></block
               ></value
             ></block
           ></statement
-        ></block
-      ><block type="test" x="44" y="290"
-        ><next
-          ><block type="mock"
-            ><value name="func"
-              ><block type="text"
-                ><field name="TEXT">window.prompt</field></block
-              ></value
-            ><value name="ret"
-              ><block type="text"
-                ><field name="TEXT">anjali</field></block
-              ></value
-            ><next
-              ><block type="invoke_stack"
-                ><value name="NAME"
-                  ><block type="text"
-                    ><field name="TEXT">Stack 3</field></block
-                  ></value
-                ><next
-                  ><block type="assertcalled"
-                    ><value name="funcName"
-                      ><block type="text"
-                        ><field name="TEXT">my_function</field></block
-                      ></value
-                    ><value name="times"
-                      ><block type="math_number"
-                        ><field name="NUM">1</field></block
-                      ></value
-                    ></block
-                  ></next
-                ></block
-              ></next
-            ></block
-          ></next
         ></block
       ></xml
     >
