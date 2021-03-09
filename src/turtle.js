@@ -270,7 +270,6 @@ var showTestResults = function (tests) {
     turtle.reset();
     testFn();
   });
-  console.log(testResults);
   testResults.forEach((result) =>
     $("#testResults").append(`<li>${result}</li>`)
   );
