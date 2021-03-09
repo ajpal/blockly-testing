@@ -330,7 +330,8 @@ var assertTurtleThrough = function (x, y) {
 
 var calls = {};
 var assertCalled = function (fnName, times) {
-  var actual = calls[fnName] || 0;
+  var actualFuncName = utils.getFuncName(fnName);
+  var actual = calls[actualFuncName] || 0;
   if (actual === times) {
     testResults.push(`pass: "${fnName}" was called ${times} times.`);
   } else {

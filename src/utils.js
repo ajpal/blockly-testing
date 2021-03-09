@@ -16,3 +16,17 @@ export function normalizeAngle(angle) {
   }
   return angle;
 }
+
+export function getFuncName(func) {
+  if (func[0] === "'" && func[func.length - 1] === "'") {
+    func = func.substring(1, func.length - 1);
+  }
+  if (func === "window.prompt" || func === "window.alert") {
+    return func;
+  }
+  var funcName = Blockly.JavaScript.variableDB_.getName(
+    func,
+    Blockly.PROCEDURE_CATEGORY_NAME
+  );
+  return funcName;
+}

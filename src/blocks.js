@@ -1,3 +1,5 @@
+import * as utils from "./utils";
+
 const HUE = 160;
 Blockly.Blocks["turtle_move"] = {
   /**
@@ -189,8 +191,8 @@ Blockly.JavaScript["spy"] = function (block) {
     "func",
     Blockly.JavaScript.ORDER_ATOMIC
   );
-  var trimmedFuncName = func.substring(1, func.length - 1);
-  return `mocks[${func}] = function(...args) {\ncalls[${func}] ||= 0;\ncalls[${func}]++;\nreturn ${trimmedFuncName}(...args)};`;
+  var funcName = utils.getFuncName(func);
+  return `mocks['${funcName}'] = function(...args) {\ncalls['${funcName}'] ||= 0;\ncalls['${funcName}']++;\nreturn ${funcName}(...args)};`;
 };
 
 Blockly.Blocks["mock"] = {
@@ -216,7 +218,8 @@ Blockly.JavaScript["mock"] = function (block) {
     "ret",
     Blockly.JavaScript.ORDER_ATOMIC
   );
-  return `mocks[${func}] = function() {\ncalls[${func}] ||= 0;\ncalls[${func}]++;\nreturn ${ret}\n};\n`;
+  var funcName = utils.getFuncName(func);
+  return `mocks['${funcName}'] = function() {\ncalls['${funcName}'] ||= 0;\ncalls['${funcName}']++;\nreturn ${ret}\n};\n`;
 };
 
 // Override to check if we should call the mock instead of the real function
