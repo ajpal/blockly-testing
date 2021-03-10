@@ -303,9 +303,15 @@ Blockly.JavaScript["name_stack"] = function (block) {
     "NAME",
     Blockly.JavaScript.ORDER_ATOMIC
   );
-  return `stacks[${name}] = function() {\n${Blockly.JavaScript.blockToCode(
-    block.childBlocks_[1]
-  )}\n}\n`;
+  var nextBlock =
+    block.nextConnection &&
+    block.nextConnection.targetConnection &&
+    block.nextConnection.targetConnection.sourceBlock_;
+  var body = "";
+  if (nextBlock) {
+    body = Blockly.JavaScript.blockToCode(nextBlock);
+  }
+  return `stacks[${name}] = function() {\n${body}\n}\n`;
 };
 
 Blockly.Blocks["invoke_stack"] = {
