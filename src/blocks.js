@@ -303,6 +303,9 @@ Blockly.JavaScript["name_stack"] = function (block) {
     "NAME",
     Blockly.JavaScript.ORDER_ATOMIC
   );
+  if (name == "") {
+    return "";
+  }
   var nextBlock =
     block.nextConnection &&
     block.nextConnection.targetConnection &&
@@ -332,6 +335,9 @@ Blockly.JavaScript["invoke_stack"] = function (block) {
     "NAME",
     Blockly.JavaScript.ORDER_ATOMIC
   );
+  if (name == "") {
+    return "";
+  }
   return `if (typeof stacks[${name}] == "function") {
     stacks[${name}]();
   }\n`;
@@ -437,16 +443,18 @@ Blockly.Blocks["assertequal"] = {
 };
 
 Blockly.JavaScript["assertequal"] = function (block) {
-  var val1 = Blockly.JavaScript.valueToCode(
-    block,
-    "val11",
-    Blockly.JavaScript.ORDER_ATOMIC
-  );
-  var val2 = Blockly.JavaScript.valueToCode(
-    block,
-    "val2",
-    Blockly.JavaScript.ORDER_ATOMIC
-  );
+  var val1 =
+    Blockly.JavaScript.valueToCode(
+      block,
+      "val11",
+      Blockly.JavaScript.ORDER_ATOMIC
+    ) || "undefined";
+  var val2 =
+    Blockly.JavaScript.valueToCode(
+      block,
+      "val2",
+      Blockly.JavaScript.ORDER_ATOMIC
+    ) || "undefined";
   return `assertEqual(${val1}, ${val2});\n`;
 };
 
