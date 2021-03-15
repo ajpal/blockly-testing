@@ -5,8 +5,8 @@ My project is a unit test framework for [Blockly Turtle](https://blockly.games/t
   
   
 ```
-git clone https://anjali-pal@bitbucket.org/anjali-pal/hw5.git
-cd hw5
+git clone https://github.com/ajpal/blockly-testing.git
+cd blockly-testing
 npm install
 npm run build
 npm start
